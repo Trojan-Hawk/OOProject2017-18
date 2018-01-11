@@ -1,0 +1,143 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+/** @author Timothy Cassidy
+ * The Consumer is responsible for creation of a thread pool,
+ * It takes the shingles off the blocking queue given,
+ * it then uses worker threads to populate a map using the document id as a key
+ * the document id is the filename.hashCode, which give a relatively unique int
+ * value to use as the file id.
+ */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+public class Consumer implements Runnable{
+	// member variables
+	private BlockingQueue<Shingle> queue;
+	private int numOfHashes;
+	private int[] minHashes;
+	private Map<Integer, List<Integer>> map = new HashMap<>();
+	private ExecutorService pool;
+	private int docCount;
+	private int doc1Id;
+	private int doc2Id;
+	
+	/**
+	 * This is the constructor for the Consumer class.
+	 * @param q BlockingQueue
+	 * @param numOfHashes int number of hashes
+	 * @param poolSize int Thread pool size
+	 * @param doc1 String filename
+	 * @param doc2 String filename
+	 */
+	Consumer(BlockingQueue<Shingle> q, int numOfHashes, int poolSize, String doc1, String doc2){
+		this.queue = q;
+		this.numOfHashes = numOfHashes;
+		pool = Executors.newFixedThreadPool(poolSize);
+		this.docCount = 2;
+		// convert both documents to hashcode
+		this.doc1Id = doc1.hashCode();
+		this.doc2Id = doc2.hashCode();
+		init();
+	}// Consumer(constructor)
+	
+	/**
+	 * The void init method populates the minHashes array with
+	 * pseudo-random numbers.
+	 */
+	private void init(){
+		// Pseudo-random number generator
+		Random random = new Random();
+		// setting the size of the minHashes array
+		minHashes = new int[numOfHashes];
+		for(int i = 0; i < numOfHashes; i++){
+			minHashes[i] = random.nextInt();
+		}// for
+	}// init
+	
+	@Override
+	/** 
+	 * The run method is the overridden method from the Runnable class.
+	 * This method takes Shingles off the queue until the docCount reaches 0.
+	 * These Shingles are then split and placed on a map, using the document id
+	 * as a key. Then the threads wait for them all to complete and call the method
+	 * to compute the jaccard.
+	 */
+	public void run(){
+		while(docCount > 0){
+			try {
+				Shingle s = queue.take();
+				
+				// checking for an instance of poison
+				if(s.getDocId() == 0 && s.getHashcode() == 0){
+					// poison found, reduce document count
+					docCount--;
+				}// if
+				else {
+					pool.execute(new Runnable(){
+						@Override
+						public synchronized void run(){
+							List<Integer> list = map.get(s.getDocId());
+							
+							for(int i = 0; i < numOfHashes; i++){
+								int value = s.getHashcode() ^ minHashes[i];
+								if(list == null){
+									list = new ArrayList<Integer>(Collections.nCopies(numOfHashes, Integer.MAX_VALUE));
+									map.put(s.getDocId(), list);
+								}// if
+								else {
+									if(list.get(i) > value){
+										list.set(i, value);
+									}// if
+								}// else
+							}// for
+						}// run(Thread pool)
+					});
+				}// else
+			} catch (InterruptedException e) {
+				System.out.println("No items on the queue!");
+			}// try/catch
+		}// while
+		
+		// Tell threads to finish off their current task, no new threads created
+		pool.shutdown();
+		// Wait for all the threads in the pool to finish.
+		try {
+			while (!pool.awaitTermination(10, TimeUnit.SECONDS)) {
+				System.out.println("Awaiting completion of threads.");
+			}// while
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}// while
+		
+		// compute jaccard distance
+		jaccardDistance();
+	}// run
+	
+	/** 
+	 * The jaccardDistance method calculates the percentage of similarity
+	 * between the two lists by first getting the similarities between them
+	 * if any, then using these we can calculate the jaccard distance.
+	 */
+	public void jaccardDistance(){
+		// Getting the intersection of both lists
+		List<Integer> intersection = new ArrayList(map.get(doc1Id));
+		intersection.retainAll(map.get(doc2Id));
+		
+		// calculating the jaccard distance using the intersection
+		float jaccard = ((float) intersection.size() / ((numOfHashes * 2) + (float) intersection.size()));
+		
+		// making the jaccard a percentage
+		jaccard *= 100;
+		System.out.printf("Files are %.2f similar.\n", jaccard);
+	}// jackardDistance
+	
+}// Consumer

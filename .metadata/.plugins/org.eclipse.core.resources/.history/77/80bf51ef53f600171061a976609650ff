@@ -1,0 +1,100 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
+
+public class DocParser implements Runnable {
+	// Instance variable(s)
+	BufferedReader br = null; 
+	
+	// Member variable(s)
+	private String doc;
+	private int docId;
+	private BlockingQueue<Shingle> q;
+	private Queue<String> buffer;
+	private int shingleSize;
+	private int minHashes;
+	private String[] words;
+	
+	DocParser(String doc, BlockingQueue<Shingle> q, int shingleSize, int minHashes){
+		this.doc = doc;
+		this.q = q;
+		this.shingleSize = shingleSize;
+		this.minHashes = minHashes;
+		// using the filename to generate unique document id
+		this.docId = doc.hashCode();
+	}// DocParser(consructor)
+	
+	public void run(){
+		try {
+			// open the file to be read
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(doc)));
+			
+			String line = null;
+			// reading in each line until the EOF is reached
+			while((line = br.readLine()) != null){
+				// adding the line of words split at each space
+				words = line.split(" ");
+				// call the addWordsToBuffer method
+				addWordsToBuffer(words);
+				// getting the shingle 
+				Shingle s = getNextShingle();
+				// add it to the blocking queue if not null
+				if(s != null)
+					q.put(s);
+				System.out.println("DocID: " + docId + " Shingle: " + s);
+			}// while
+
+			
+			// flushBuffer();
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}// try/catch
+	}// run
+	
+	private void addWordsToBuffer(String[] words){
+		for(String s : words){
+			buffer.add(s);
+		}// for
+	}// addWordsToBuffer
+	
+	private Shingle getNextShingle(){
+		// making an instance of stringbuilder
+		StringBuilder sb = new StringBuilder();
+		// counter to track words added to shingle
+		int counter = 0;
+		while(counter < shingleSize){
+			// if sb is null
+			sb.append(buffer.poll());
+			counter++;
+		}// while
+		if(sb == null) {
+			return null;
+		}// if
+		return (new Shingle(docId, sb.toString().hashCode()));
+	}// Shingle
+	
+	private void flushBuffer() {
+		while(buffer.size() > 0){
+			Shingle s = getNextShingle();
+			try {
+				if(s != null) {q.put(s);}
+				else {q.put(new Poison());}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}// try/catch
+		}// while
+	}// flushBuffer
+	
+}// DocParser

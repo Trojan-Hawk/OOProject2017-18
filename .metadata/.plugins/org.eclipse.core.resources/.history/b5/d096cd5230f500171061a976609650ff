@@ -1,0 +1,12 @@
+package ie.gmit.oop;
+
+public class Menu {
+	
+	Scanner sc = new Scanner(); 
+	
+	// shows the menu
+	public void show(){
+		
+	}// show
+	
+}// Menu

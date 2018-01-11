@@ -1,0 +1,24 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+public class Shingle {
+	// Member variable(s)
+	private int docId;
+	private int hashcode;
+	
+	// Getters and Setters
+	public int getDocId() {
+		return docId;
+	}// getDocId
+	public void setDocId(int docId) {
+		this.docId = docId;
+	}// setDocId
+	public int getHashcode() {
+		return hashcode;
+	}// getHashcode
+	public void setHashcode(int hashcode) {
+		this.hashcode = hashcode;
+	}// setHashcode
+	
+}// Shingle

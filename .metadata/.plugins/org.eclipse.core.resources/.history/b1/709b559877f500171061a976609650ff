@@ -1,0 +1,16 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+public class DocParser implements Runnable {
+	// member variable(s)
+	private String doc;
+	
+	DocParser(String doc){
+		this.doc = doc;
+	}
+	
+	public void run(){
+		
+	}// run
+}

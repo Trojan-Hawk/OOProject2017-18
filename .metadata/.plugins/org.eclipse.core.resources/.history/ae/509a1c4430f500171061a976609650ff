@@ -1,0 +1,10 @@
+package ie.gmit.oop;
+
+public class Menu {
+	
+	// shows the menu
+	public void show(){
+		
+	}// show
+	
+}// Menu

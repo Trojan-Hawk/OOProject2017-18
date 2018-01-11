@@ -1,0 +1,30 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.io.BufferedReader;
+import java.util.Scanner;
+
+public class Menu {
+	// instance variable(s)
+	Scanner sc = new Scanner(System.in);
+	BufferedReader br = new BufferedReader(); 
+	
+	// shows the menu
+	public void show(){
+		
+		
+		
+	}// show
+	
+	public boolean validFile(String fileName){
+		try{
+			
+		} catch(FileNotFoundException e) {
+			
+		}
+		
+		return true;
+	}// validFile
+	
+}// Menu

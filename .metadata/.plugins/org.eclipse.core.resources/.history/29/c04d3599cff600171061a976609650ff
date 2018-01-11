@@ -1,0 +1,29 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+
+public class Consumer {
+	// member variables
+	private BlockingQueue<Shingle> queue;
+	private int numOfHashes;
+	private int[] minHashes;
+	private Map<Integer, List<Integer>> map = new HashMap<>();
+	private ExecutorService pool;
+	
+	Consumer(BlockingQueue<Shingle> q, int numOfHashes, int poolSize){
+		this.queue = q;
+	}// Consumer(constructor)
+	
+	
+	
+	
+	
+	
+	
+}// Consumer

@@ -1,0 +1,16 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+/** @author Timothy Cassidy
+ * The Runner class is responsible for making an instance of
+ * and accessing only the Menu class.
+ */
+public class Runner {
+	
+	public static void main(String[] args) {
+		// accessing the Menu.show() method
+		new Menu().show();
+		
+	}// main
+
+}// Runner

@@ -1,0 +1,60 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Menu {
+	// instance variable(s)
+	Scanner sc = new Scanner(System.in);
+	BufferedReader br = null; 
+	
+	private String doc1;
+	private String doc2;
+	private int shingleSize;
+	private int k;
+	private int blockingQueueSize;
+	private boolean valid = false;
+	
+	// shows the menu
+	public void show(){
+		System.out.println("This application is designed to measure the similarity between two documents.");
+		System.out.print("Please enter the first document to be checked(with extention e.g'.txt'): ");
+		doc1 = sc.nextLine();
+		// checking the file entered is valid
+		while(validFile(doc1) != true){
+			// if it is invalid keep prompting for correct file
+			System.out.print("\nInvalid file entered!\nPlease enter a valid file to parse: ");
+			sc.next();
+			doc1 = sc.nextLine();
+		}// while
+		System.out.print("Please enter the second document to be checked(with extention e.g'.txt'): ");
+		doc2 = sc.nextLine();
+		// checking the file entered is valid
+		while(validFile(doc2) != true){
+			// if it is invalid keep prompting for correct file
+			System.out.print("\nInvalid file entered!\nPlease enter a valid file to parse: ");
+			doc2 = sc.nextLine();
+		}// while
+		
+	}// show
+	
+	public boolean validFile(String fileName){
+		try{
+			// try and open the file given
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+			br.close();
+			// if it can be found and opened return true
+			return true;
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}// try/catch
+		
+		// if the file cannot be opened or found return false
+		return false;
+	}// validFile
+	
+}// Menu

@@ -1,0 +1,14 @@
+package ie.gmit.oop;
+
+import java.util.Scanner;
+
+public class Menu {
+	
+	Scanner sc = new Scanner(System.in); 
+	
+	// shows the menu
+	public void show(){
+		
+	}// show
+	
+}// Menu

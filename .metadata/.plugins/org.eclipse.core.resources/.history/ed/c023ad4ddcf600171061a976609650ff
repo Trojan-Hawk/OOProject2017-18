@@ -1,0 +1,39 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class Launcher {
+	// member variables
+	BlockingQueue<Shingle> q = new LinkedBlockingQueue(100);
+	private int shingleSize = 7;
+	private int numOfHashes = 15;
+	private int poolSize = 100;
+	
+	public void launch(String doc1, String doc2) {
+		
+		// DocParser Threads
+		Thread t1 = new Thread(new DocParser(doc1, q, shingleSize));
+		Thread t2 = new Thread(new DocParser(doc2, q, shingleSize));
+		t1.start();
+		t2.start();
+		
+		try {
+			t1.join();
+			t2.join();
+			
+			// Consumer Thread
+			Thread t3 = new Thread(new Consumer(q, numOfHashes, poolSize));
+			t3.start();
+			t3.join();
+			
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}// try//catch
+		
+	}// launch
+	
+}// Launcher

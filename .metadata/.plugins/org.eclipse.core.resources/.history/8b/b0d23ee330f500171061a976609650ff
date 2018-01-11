@@ -1,0 +1,13 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+public class Runner {
+
+	public static void main(String[] args) {
+		// accessing the menu.show() method
+		new Menu().show();
+		
+	}// main
+
+}// Runner

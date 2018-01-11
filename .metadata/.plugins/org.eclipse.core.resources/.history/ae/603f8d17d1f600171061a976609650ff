@@ -1,0 +1,42 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Consumer {
+	// member variables
+	private BlockingQueue<Shingle> queue;
+	private int numOfHashes;
+	private int[] minHashes;
+	private Map<Integer, List<Integer>> map = new HashMap<>();
+	private ExecutorService pool;
+	
+	Consumer(BlockingQueue<Shingle> q, int numOfHashes, int poolSize){
+		this.queue = q;
+		this.numOfHashes = numOfHashes;
+		pool = Executors.newFixedThreadPool(poolSize);
+		init();
+	}// Consumer(constructor)
+	
+	private void init(){
+		// Pseudo-random number generator
+		Random random = new Random();
+		// setting the size of the minHashes array
+		minHashes = new int[numOfHashes];
+		for(int i = 0; i < numOfHashes; i++){
+			
+		}// for
+	}// init
+	
+	
+	
+	
+	
+}// Consumer

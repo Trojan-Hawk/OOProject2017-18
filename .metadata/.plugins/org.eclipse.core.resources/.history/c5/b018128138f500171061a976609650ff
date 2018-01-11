@@ -1,0 +1,15 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+public class Launcher {
+	
+	public void launch(String doc1, String doc2, int shingleSize, int k, int blockingQueueSize){
+		
+		Thread t1 = new Thread();
+		Thread t2 = new Thread();
+		t1 = new DocParser(doc1);
+		
+	}// launch
+	
+}// Launcher

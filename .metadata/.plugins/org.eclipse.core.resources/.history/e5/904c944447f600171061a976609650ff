@@ -1,0 +1,50 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class DocParser implements Runnable {
+	// Instance variable(s)
+	BufferedReader br = null; 
+	
+	// Member variable(s)
+	private String doc;
+	private int shingleSize;
+	private int minHashes;
+	private int blockingQueueSize;
+	private LinkedList<String[]> linkedList;
+	
+	DocParser(String doc){
+		this.doc = doc;
+		this.shingleSize = 7;
+		this.minHashes = 15;
+		this.blockingQueueSize = 100;
+	}// DocParser(consructor)
+	
+	public void run(){
+		try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(doc)));
+			String line = null;
+			
+			while((line = br.readLine()) != null){
+				
+			}// while
+
+			
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// try/catch
+		
+	}// run
+	
+}// DocParser

@@ -1,0 +1,14 @@
+package ie.gmit.sw;
+
+import java.util.Scanner;
+
+public class Menu {
+	// instance variable(s)
+	Scanner sc = new Scanner(System.in); 
+	
+	// shows the menu
+	public void show(){
+		
+	}// show
+	
+}// Menu

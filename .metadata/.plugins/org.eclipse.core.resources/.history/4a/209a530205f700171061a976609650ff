@@ -1,0 +1,12 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+public class Poison extends Shingle{
+	
+	Poison(int id, int hash){
+		this.setDocId(id);
+		this.setHashcode(hash);
+	}// Poison(Constructor)
+	
+}// Poison

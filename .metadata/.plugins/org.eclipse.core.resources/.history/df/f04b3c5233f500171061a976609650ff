@@ -1,0 +1,40 @@
+// Student Name:		Timothy Cassidy
+// Student Number:		G00333333
+package ie.gmit.sw;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Menu {
+	// instance variable(s)
+	Scanner sc = new Scanner(System.in);
+	BufferedReader br = null; 
+	
+	// shows the menu
+	public void show(){
+		System.out.println("This application is designed to measure the similarity between two documents.");
+		System.out.print("Please enter the first document to be checked(with extention e.g'.txt'): ");
+		do{
+			
+		}while(validFIle("") != true);
+		
+	}// show
+	
+	public boolean validFile(String fileName){
+		try{
+			// try and open the file given
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+			br.close();
+			// if it can be found and opened return true
+			return true;
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}// try/catch
+		
+		// if the file cannot be opened or found return false
+		return false;
+	}// validFile
+	
+}// Menu
